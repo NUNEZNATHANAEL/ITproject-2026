@@ -13,14 +13,3 @@ dist/
 
 # Vercelがローカルで作成する設定情報
 .vercel/
-
-
-# npmのエラーログ
-npm-debug.log*
-
-# 拡張子が .bak のすべてのファイルを除外
-*.bak
-# プロジェクト直下の npm-debug.log を除外
-/npm-debug.log
-# プロジェクト直下の bin フォルダーを除外
-/bin/
