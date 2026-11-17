@@ -1,27 +1,24 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
-
 import { pool } from './db';
+import { todoRouter } from './todoRouter'; // 同じ階層の todoRouter.ts をインポート
 
-const app = express(); // Expressアプリケーションを作成
-const port: number = 3000; // ローカルで使用するポート番号
-
+const app = express();
+const port: number = 3000;
 
 // ------------------------------
 // Expressの基本設定
 // ------------------------------
-app.use(express.urlencoded({ extended: true })); // フォームから送信されたデータを受け取れるようにする
-app.use(express.static(path.join(process.cwd(), 'public'))); // CSSや画像などの静的ファイルを公開する
-app.set('view engine', 'ejs'); // テンプレートエンジンにEJSを設定
-app.set('views', path.join(process.cwd(), 'views')); // EJSファイルを保存するフォルダーを指定
-
+app.use(express.json()); // JSONリクエストのパースに必須
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(process.cwd(), 'public')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(process.cwd(), 'views'));
 
 // ------------------------------
 // ルーティング
 // ------------------------------
 
-
-// 「/」にアクセスされたときの処理
 app.get('/', (req: Request, res: Response): void => {
   res.send('Hello World! 20261117');
 });
@@ -39,12 +36,10 @@ app.get('/api/db-check', async (_req, res) => {
   }
 });
 
+// TODOアプリ用ルーターのマウント
+app.use('/', todoRouter);
 
-// ------------------------------
 // サーバー起動
-// ------------------------------
-
-
-app.listen(port, (): void => {
-  console.log(`Server started: http://localhost:${port}`);
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
 });

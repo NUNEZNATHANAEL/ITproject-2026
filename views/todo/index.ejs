@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODOアプリ (V1)</title>
+    <link rel="stylesheet" href="/todo/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>TODOアプリ</h1>
+
+        <!-- TODO新規登録フォーム -->
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="新しいTODOを入力..." required>
+            <button type="submit">追加</button>
+        </form>
+
+        <!-- TODO一覧リスト -->
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script>
+        const API_URL = '/api/v1/todos';
+
+        async function fetchTodos() {
+            try {
+                const res = await fetch(API_URL);
+                const todos = await res.json();
+                renderTodos(todos);
+            } catch (err) {
+                console.error('TODOの取得に失敗しました', err);
+            }
+        }
+
+        function renderTodos(todos) {
+            const listEl = document.getElementById('todo-list');
+            listEl.innerHTML = '';
+            todos.forEach(todo => {
+                const li = document.createElement('li');
+                if (todo.completed) li.classList.add('completed');
+
+                li.innerHTML = `
+                    <span onclick="toggleTodo(${todo.id}, ${!todo.completed})" style="cursor: pointer; flex-grow: 1;">
+                        ${escapeHtml(todo.title)}
+                    </span>
+                    <button onclick="deleteTodo(${todo.id})" class="delete-btn">削除</button>
+                `;
+                listEl.appendChild(li);
+            });
+        }
+
+        document.getElementById('todo-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('todo-input');
+            const title = input.value.trim();
+            if (!title) return;
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title })
+                });
+                if (res.ok) {
+                    input.value = '';
+                    fetchTodos();
+                } else {
+                    alert('TODOの追加に失敗しました');
+                }
+            } catch (err) {
+                console.error('通信エラー', err);
+            }
+        });
+
+        async function toggleTodo(id, completed) {
+            try {
+                await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ completed })
+                });
+                fetchTodos();
+            } catch (err) {
+                console.error('更新エラー', err);
+            }
+        }
+
+        async function deleteTodo(id) {
+            if (!confirm('本当に削除しますか？')) return;
+            try {
+                await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE'
+                });
+                fetchTodos();
+            } catch (err) {
+                console.error('削除エラー', err);
+            }
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>"`']/g, (match) => {
+                const escape = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+                return escape[match];
+            });
+        }
+
+        // 初期読み込み
+        fetchTodos();
+    </script>
+</body>
+</html>
