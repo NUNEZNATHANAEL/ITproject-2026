@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'AI質問' %></title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 760px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      line-height: 1.6;
+      color: #1f2937;
+    }
+    .ai-form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 0.75rem;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    .ai-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.875rem;
+      color: #4b5563;
+    }
+    .ai-char-count.is-over {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+    button {
+      padding: 0.6rem 1.25rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .ai-loading {
+      margin-top: 1rem;
+      color: #374151;
+    }
+    .ai-error {
+      margin-top: 1rem;
+      padding: 0.75rem 1rem;
+      border-left: 4px solid #dc2626;
+      background: #fef2f2;
+      color: #991b1b;
+    }
+    .ai-answer {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      background: #f9fafb;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>AI質問</h1>
+    <p>質問を入力すると、Gemini が回答を生成します（最大 <%= typeof maxLength !== 'undefined' ? maxLength : 1000 %> 文字）。</p>
+
+    <form id="ai-question-form" data-max-length="<%= typeof maxLength !== 'undefined' ? maxLength : 1000 %>" novalidate>
+      <div class="ai-form-group">
+        <label for="ai-question-input">質問内容</label>
+        <textarea
+          id="ai-question-input"
+          name="question"
+          placeholder="例: ExpressとTypeScriptでレイヤー分離するメリットは何ですか？"
+        ></textarea>
+        <div class="ai-meta">
+          <span id="ai-char-count" class="ai-char-count">0 / 1,000文字</span>
+          <button id="ai-submit-btn" type="submit">質問する</button>
+        </div>
+      </div>
+    </form>
+
+    <div id="ai-loading" class="ai-loading" hidden aria-live="polite">
+      AIが回答を生成しています...
+    </div>
+
+    <div id="ai-error" class="ai-error" hidden role="alert" aria-live="assertive"></div>
+
+    <section id="ai-answer-section" class="ai-answer" hidden aria-live="polite">
+      <h2>回答</h2>
+      <div id="ai-answer-text"></div>
+    </section>
+  </main>
+
+  <script src="/ai/ai.js" defer></script>
+</body>
+</html>

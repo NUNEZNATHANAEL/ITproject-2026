@@ -2,6 +2,8 @@ import express, { Request, Response } from 'express';
 import path from 'path';
 import { pool } from './db';
 import { todoRouter } from './todoRouter'; // 同じ階層の todoRouter.ts をインポート
+import 'dotenv/config';
+import aiRouter from './src/apps/ai/aiRouter';
 
 const app = express();
 const port: number = 3000;
@@ -12,8 +14,10 @@ const port: number = 3000;
 app.use(express.json()); // JSONリクエストのパースに必須
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(process.cwd(), 'public')));
+app.use('/ai', aiRouter);
 app.set('view engine', 'ejs');
 app.set('views', path.join(process.cwd(), 'views'));
+
 
 // ------------------------------
 // ルーティング
