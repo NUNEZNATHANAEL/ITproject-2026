@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gemini API 疎通テスト（Tailwind CSS）</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-slate-100 text-slate-800 antialiased min-h-screen py-10 px-4">
   <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-sm border border-slate-200 p-6 sm:p-8">
     <div class="mb-6">
@@ -21,12 +23,8 @@
         <label for="apiKey" class="block text-sm font-semibold text-slate-700 mb-1.5">
           APIキー（AIza...）
         </label>
-        <input
-          type="password"
-          id="apiKey"
-          placeholder="Google AI Studio の APIキーを入力"
-          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-        >
+        <input type="password" id="apiKey" placeholder="Google AI Studio の APIキーを入力"
+          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
         <label class="mt-2 inline-flex items-center gap-2 text-xs text-slate-600 cursor-pointer select-none">
           <input type="checkbox" id="rememberKey" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
           <span>ブラウザの localStorage に保存する（ローカルテスト用）</span>
@@ -38,10 +36,8 @@
         <label for="model" class="block text-sm font-semibold text-slate-700 mb-1.5">
           モデル名
         </label>
-        <select
-          id="model"
-          class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-        >
+        <select id="model"
+          class="w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
           <option value="gemini-3.8-flash">gemini-3.8-flash</option>
           <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite</option>
           <option value="gemini-2.5-flash">gemini-2.5-flash</option>
@@ -53,21 +49,19 @@
         <label for="prompt" class="block text-sm font-semibold text-slate-700 mb-1.5">
           プロンプト
         </label>
-        <textarea
-          id="prompt"
-          rows="3"
-          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-        >疎通テストです。正常に受信できていたら「OK」とだけ返答してください。</textarea>
+        <textarea id="prompt" rows="3"
+          class="w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20">疎通テストです。正常に受信できていたら「OK」とだけ返答してください。</textarea>
       </div>
 
 
       <div class="pt-1">
-        <button
-          id="sendBtn"
-          type="button"
-          class="w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
-        >
+        <button id="sendBtn" type="button"
+          class="w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition">
           リクエスト送信
+        </button>
+        <button id="sendBtn" type="button"
+          class="w-full sm:w-auto inline-flex items-center justify-center rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition">
+          ('<h1>firstページ</h1><a href="https://itproject-2026-snowy.vercel.app/">目次に戻る</a>');
         </button>
       </div>
     </div>
@@ -76,14 +70,13 @@
     <div class="mt-8 pt-6 border-t border-slate-200">
       <div class="flex items-center justify-between mb-2">
         <h2 class="text-base font-bold text-slate-900">実行結果</h2>
-        <span id="status" class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+        <span id="status"
+          class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
           未実行
         </span>
       </div>
-      <pre
-        id="result"
-        class="bg-slate-900 text-slate-100 rounded-lg p-4 text-xs sm:text-sm overflow-x-auto whitespace-pre-wrap break-all leading-relaxed"
-      >ここにレスポンスが表示されます</pre>
+      <pre id="result"
+        class="bg-slate-900 text-slate-100 rounded-lg p-4 text-xs sm:text-sm overflow-x-auto whitespace-pre-wrap break-all leading-relaxed">ここにレスポンスが表示されます</pre>
     </div>
   </div>
 
@@ -186,4 +179,5 @@
     });
   </script>
 </body>
+
 </html>
