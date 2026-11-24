@@ -20,7 +20,21 @@ app.set('views', path.join(process.cwd(), 'views'));
 // ------------------------------
 
 app.get('/', (req: Request, res: Response): void => {
-  res.send('Hello World! 20261117');
+  res.send(`
+    <h1>目次</h1>
+    <ul>
+      <li><a href="https://itproject-2026-snowy.vercel.app/ai_test.html">About ページへ</a></li>
+      <li><a href="https://itproject-2026-snowy.vercel.app/todo/">Contact ページへ</a></li>
+    </ul>
+  `);
+});
+
+app.get('/about', (req: Request, res: Response): void => {
+  res.send('<h1>About ページ</h1><a href="https://itproject-2026-snowy.vercel.app/">目次に戻る</a>');
+});
+
+app.get('/contact', (req: Request, res: Response): void => {
+  res.send('<h1>Contact ページ</h1><a href="https://itproject-2026-snowy.vercel.app/">目次に戻る</a>');
 });
 
 app.get('/api/db-check', async (_req, res) => {
